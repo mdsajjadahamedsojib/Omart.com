@@ -2,6 +2,7 @@
 
 main{
     margin-top: -1.5rem;
+    padding-bottom: 0rem;
 }
 
 .section {
@@ -42,8 +43,26 @@ main{
 .feature-item {
     flex: 1;
     padding: 1rem;
-    background-color: var(--secondary-clr);
+    background-color: var(--p-text-clr);
     border-radius: .5rem;
+}
+
+.feature-item p{
+    font-size: 1rem;
+    font-weight: 450;
+    color: var(--primary-clr);
+}
+
+.feature-item i{
+    font-size: 1.5rem;
+    color: var(--primary-clr);
+}
+
+.feature-item h3{
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--btn-bg-clr);
+
 }
 
 .team-member {
