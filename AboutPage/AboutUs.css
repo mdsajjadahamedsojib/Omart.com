@@ -97,12 +97,11 @@ main{
 
 
 
-
-/*------------ MEDIA QUERYS FOR LAPTOP SCREEN ------------ */
+/*------------ MEDIA QUERYS FOR LAPTOP SCREEN ------------*/
 
 @media screen and (max-width: 992px){
     main{
-        margin-top: -1.5rem;
+        margin-top: -3rem;
     }
 }
 
@@ -112,7 +111,7 @@ main{
 
 @media screen and (max-width: 768px) {
     main{
-        margin-top: -2rem;
+        margin-top: -3rem;
     }
 
     .features-grid {
