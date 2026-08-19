@@ -277,6 +277,11 @@ header {
     border: none;
 }
 
+
+
+
+
+
 /*----------- LOGIN SECTION -----------*/
 
 .login-section {
@@ -284,8 +289,8 @@ header {
 }
 
 .login-container {
-    background-color: rgba(189, 160, 160, 0.5);
-    backdrop-filter: 5rem;
+    background-color: rgba(79, 99, 121, 0.5);
+    backdrop-filter: blur(10px);
     position: fixed;
     left: 50%;
     top: 50%;
@@ -414,7 +419,6 @@ header {
 }
 
 .signup-link a {
-    color: var(--btn-bg-clr);
     text-decoration: none;
     font-weight: bold;
 }
@@ -965,7 +969,9 @@ footer {
     visibility: visible;
 }
 
-/* DARK MODE */
+
+
+/*------------- DARK MODE ---------------*/
 
 body.dark-theme .cart-slider {
     background: var(--bg-white-clr);
