@@ -118,5 +118,14 @@ main{
     main{
         margin-top: -2.5rem;
     }
-}
 
+    .flash-sale-product-container{
+        transform: scale(0.65);
+        margin: -3rem -2.5rem;
+    }
+
+    .flash-sale-product-section{
+        gap: .1rem .5rem;
+    }
+
+}   
