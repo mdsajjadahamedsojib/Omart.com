@@ -2,6 +2,7 @@
 
 main{
     margin-top: -1.5rem;
+    padding-bottom: 0rem;
 }
 
 .flash-sale-product-section{
@@ -81,7 +82,7 @@ main{
 /*---------- FOOTER SECTION ----------*/
 
 .footer-all{
-    height: 12vh;
+    height: 14vh;
     width: 100%;
     background-color: var(--secondary-clr);
 }
