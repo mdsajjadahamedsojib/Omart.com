@@ -1,5 +1,9 @@
 /* PRODUCT SECTION */
 
+main{
+    margin-top: -1.5rem;
+}
+
 .fashion-product-section{
     margin: 1rem;
     display: flex;

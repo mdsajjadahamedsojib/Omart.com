@@ -1,5 +1,9 @@
 /* ABOUT US SECTION */
 
+main{
+    margin-top: -1.5rem;
+}
+
 .section {
     margin: 1rem;
 }
@@ -56,7 +60,14 @@
 .team-member p{
     font-size: 1rem;
     font-weight: 450;
+    color: var(--primary-clr);
 }
+
+.team-member i {
+    font-size: 1.5rem;
+    color: var(--primary-clr);
+}
+
 
 .contact-section {
     height: 8rem;
