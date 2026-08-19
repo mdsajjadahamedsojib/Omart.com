@@ -861,7 +861,7 @@ footer {
 
 .foot-panel2 ul {
     max-height: 18rem;
-    padding-block: 1.5rem;
+    padding-block: 1rem;
 }
 
 .foot-panel2 ul a {
@@ -1341,7 +1341,7 @@ body.dark-theme .cart-slider-footer {
     .foot-panel2 ul h3 {
         margin-inline: 1rem;
         font-size: 0.7rem;
-        height: 2rem;
+        height: 3rem;
     }
 
     .foot-panel4 {
@@ -1440,6 +1440,12 @@ body.dark-theme .cart-slider-footer {
 
     .foot-panel2 {
         height: 20rem;
+    }
+
+    .foot-panel2 ul h3 {
+        margin-inline: 1rem;
+        font-size: 0.7rem;
+        height: 3rem;
     }
 
     .foot-panel4 {
