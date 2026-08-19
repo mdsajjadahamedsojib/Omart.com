@@ -120,7 +120,7 @@ main{
     }
 
     .fashion-product-container{
-        transform: scale(0.5);
+        transform: scale(0.55);
         margin: -5.5rem -4.5rem;
     }
 }
