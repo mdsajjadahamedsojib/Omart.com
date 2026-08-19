@@ -16,6 +16,7 @@
 :root {
     --primary-clr: #101425;
     --secondary-clr: #232f3d;
+    --heading-clr: #2563eb;
 
     --bg-white-clr: #f8fafc;
     --black-clr: #101425;
@@ -37,6 +38,7 @@
 .dark-theme {
     --primary-clr: #101425;
     --secondary-clr: #232f3d;
+    --heading-clr: #0f4c5c;
 
     --bg-white-clr: #101425;
     --black-clr: #fff;
@@ -74,11 +76,12 @@ body {
     justify-content: center;
     align-items: center;
     height: 3rem;
-    background-color: var(--secondary-clr);
+    background-color: var(--heading-clr);
     display: flex;
     align-items: center;
     padding-inline: 1rem;
     color: var(--bg-white-clr);
+    border-radius: 0.5rem;
 }
 
 .btn {
