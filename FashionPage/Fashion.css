@@ -96,3 +96,26 @@ main{
 }
 
 
+
+/*------------ MEDIA QUERYS FOR TABLET SCREEN ------------*/
+
+@media screen and (max-width: 768px){
+    main{
+        margin-top: -2.2rem;
+    }
+}
+
+
+/*------------ MEDIA QUERYS FOR MOBILE PHONE SCREEN ------------*/
+
+@media screen and (max-width: 576px){
+    main{
+        margin-top: -2.6rem;
+    }
+}
+
+@media (min-width: 360px) and (max-width: 480px) {
+    main{
+        margin-top: -2.5rem;
+    }
+}
