@@ -89,6 +89,7 @@ main {
 .info-section {
     display: flex;
     flex-direction: column;
+    padding-inline: 1rem;
 }
 
 .brand-name {
@@ -145,7 +146,6 @@ main {
 
 .options-group {
     margin-block: .2rem;
-    gap: 1rem;
 }
 
 .options-title {
@@ -160,6 +160,7 @@ main {
     display: flex;
     gap: 1.5rem;
     padding-left: 4rem;
+    margin-top: .5rem;
 }
 
 .color-dot {
@@ -177,12 +178,17 @@ main {
 }
 
 .size-btn {
-    padding: .5rem 1rem;
+    height: 2rem;
+    width: 2rem;
+    padding: .5rem;
     border: 2px solid var(--hover-clr);
     border-radius: 6px;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .size-btn.selected,
@@ -204,6 +210,7 @@ main {
 .qty-and-cart {
     display: flex;
     flex-direction: column;
+    gap: .5rem;
 }
 
 .quantity-selector {
@@ -219,8 +226,8 @@ main {
     display: flex;
     justify-content: center;
     border: none;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
     font-size: 1rem;
     cursor: pointer;
     border-radius: 10rem;
@@ -231,8 +238,8 @@ main {
 }
 
 .qty-input {
-    width: 3rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
     color: var(--black-clr);
     background-color: transparent;
     text-align: center;
@@ -243,18 +250,22 @@ main {
 }
 
 .add-to-cart-btn {
-    flex: 1;
-    background: var(--btn-bg-clr);
-    color: var(--black-clr);
+    height: 2rem;
+    width: 6.5rem;
+    background-color: var(--btn-bg-clr);
     border: none;
-    padding: 14px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 8px;
+    border-radius: 1rem;
     cursor: pointer;
-    transition: background 0.2s;
-    margin-top: 1rem;
+    margin-top: .5rem;
 }
+
+.cart-btn{
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    justify-content: space-between;
+}
+
 
 .add-to-cart-btn:hover {
     background: var(--hover-clr);
