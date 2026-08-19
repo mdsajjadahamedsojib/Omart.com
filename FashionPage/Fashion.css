@@ -120,7 +120,11 @@ main{
     }
 
     .fashion-product-container{
-        transform: scale(0.55);
+        transform: scale(0.5);
         margin: -5.5rem -4.5rem;
+    }
+
+    .fashion-product-section{
+        gap: .7rem .9rem;
     }
 }
