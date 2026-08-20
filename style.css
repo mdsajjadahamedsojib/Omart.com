@@ -1479,7 +1479,7 @@ body.dark-theme .cart-slider-footer {
     }
 
     .product-section {
-        margin-top: -4rem;
+        margin-top: -3rem;
         margin-inline: 0rem;
         grid-template-columns: repeat(2, 1fr);
     }
