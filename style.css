@@ -1485,7 +1485,8 @@ body.dark-theme .cart-slider-footer {
     }
 
     .nav-list-element-poppup.open-navlist-popup {
-        top: -2.35rem;
+        top: 13vh;
+        margin-top: 0rem;
     }
 
 }
