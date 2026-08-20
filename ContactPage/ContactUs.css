@@ -17,7 +17,7 @@ main{
 
 .contact-form-section {
     flex: 2;
-    padding: 2rem;
+    padding: 1rem;
     background: var(--bg-white-clr);
     border-radius: .5rem;
     box-shadow: var(--box-shadow2);
@@ -29,7 +29,7 @@ main{
 
 .contact-details-section {
     flex: 1;
-    padding: 2rem;
+    padding: 1rem;
     background-color: var(--bg-white-clr);
     border-radius: .5rem;
     box-shadow: var(--box-shadow2);
@@ -69,6 +69,8 @@ main{
 }
 
 .detail-item {
+    width: 100%;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: start;
@@ -78,7 +80,7 @@ main{
 }
 
 .detail-item p{
-    font-size: .9rem;
+    font-size: 1rem;
 }
 
 .detail-item h2{
@@ -93,8 +95,6 @@ main{
 .contact-icon {
     font-size: 1.5em;
     color: var(--btn-bg-clr);
-    margin-right: 1rem;
-    margin-top: 5px;
 }
 
 .follow-us{
