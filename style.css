@@ -1484,6 +1484,10 @@ body.dark-theme .cart-slider-footer {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .nav-list-element-poppup {
+        margin-top: 3rem;
+    }
+
 }
 
 
