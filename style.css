@@ -1484,15 +1484,15 @@ body.dark-theme .cart-slider-footer {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .nav-list-element-poppup {
+    /* .nav-list-element-poppup {
         width: 100%;
         left: 0;
         top: 0;
         height: auto;
-        margin-top: 3rem;
+        margin-top: 3.5rem;
         transform: translateY(-100%);
         transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out, visibility 0.4s;
-    }
+    } */
 
 }
 
