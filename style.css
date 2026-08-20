@@ -1485,7 +1485,13 @@ body.dark-theme .cart-slider-footer {
     }
 
     .nav-list-element-poppup {
-        margin-top: 3rem;
+        width: 100%;
+        left: 0;
+        top: 0;
+        height: auto;
+        margin-top: 2rem;
+        transform: translateY(-100%);
+        transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out, visibility 0.4s;
     }
 
 }
