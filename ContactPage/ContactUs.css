@@ -120,7 +120,7 @@ main{
 /*---------- FOOTER SECTION ----------*/
 
 .footer-all{
-    height: 12vh;
+    height: 14vh;
     width: 100%;
     background-color: var(--secondary-clr);
 }
