@@ -115,9 +115,9 @@ main{
     }
 }
 
-@media (min-width: 360px) and (max-width: 480px) {
+@media (max-width: 480px) {
     main{
-        margin-top: -2.5rem;
+        margin-top: 2rem;
     }
 
     .flash-sale-product-container{
@@ -129,4 +129,20 @@ main{
         gap: .5rem 1rem;
     }
 
-}   
+}
+
+@media (max-width: 380px) {
+
+    main{
+        margin-top: -2.2rem;
+    }
+
+    .flash-sale-product-container{
+        transform: scale(0.6);
+        margin: -3.5rem -2.8rem;
+    }
+
+    .flash-sale-product-section{
+        gap: .5rem 1rem;
+    }
+}
