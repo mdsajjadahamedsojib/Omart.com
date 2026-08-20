@@ -1369,7 +1369,7 @@ body.dark-theme .cart-slider-footer {
 
 /* ------------ MEDIA QUERYS FOR MOBILE PHONE SCREEN ------------ */
 
-@media (min-width: 360px) and (max-width: 480px) {
+@media (min-width: 361px) and (max-width: 480px) {
 
     .nav-logo img {
         width: 5rem;
@@ -1478,6 +1478,10 @@ body.dark-theme .cart-slider-footer {
         margin-top: -4.5rem;
         margin-inline: 0rem;
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .image-btn-container {
+        top: 2rem;
     }
 
 }
