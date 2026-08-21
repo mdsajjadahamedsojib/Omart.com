@@ -435,12 +435,23 @@ header {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.2);
+    /* background: rgba(0, 0, 0, 0.2); */
     backdrop-filter: blur(5px);
     z-index: 998;
     opacity: 0;
     pointer-events: none;
     transition: all 0.3s ease;
+
+    /* ব্যাকগ্রাউন্ড কালার একটু ডার্ক রাখা যাতে ব্লার বন্ধ থাকলেও কনটেন্ট স্পষ্ট বোঝা যায় */
+    background: rgba(0, 0, 0, 0.4); 
+
+    /* Safari ও WebKit সাপোর্ট */
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+
+    /* iOS WebKit GPU রেন্ডারিং ফিক্স */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
 .open-backdrop {
