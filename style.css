@@ -1489,6 +1489,10 @@ body.dark-theme .cart-slider-footer {
         margin-top: 0rem;
     }
 
+    .login-section{
+        visibility: visible;
+    }
+
 }
 
 
