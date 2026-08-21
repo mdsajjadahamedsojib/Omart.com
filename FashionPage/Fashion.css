@@ -113,12 +113,21 @@ main{
     main{
         margin-top: -2.6rem;
     }
+
+    .fashion-product-container{
+        transform: scale(0.5);
+        margin: -5.5rem -4.5rem;
+    }
+
+    .fashion-product-section{
+        gap: .7rem 1rem;
+    }
 }
 
 @media (max-width: 480px) {
-    main{
+    /* main{
         margin-top: 2rem;
-    }
+    } */
 
     .fashion-product-container{
         transform: scale(0.5);

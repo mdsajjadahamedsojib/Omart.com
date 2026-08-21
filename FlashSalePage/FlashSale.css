@@ -113,12 +113,21 @@ main{
     main{
         margin-top: -2.6rem;
     }
+
+    .flash-sale-product-container{
+        transform: scale(0.6);
+        margin: -3.5rem -2.8rem;
+    }
+
+    .flash-sale-product-section{
+        gap: .5rem 1rem;
+    }
 }
 
 @media (max-width: 480px) {
-    main{
+    /* main{
         margin-top: 2rem;
-    }
+    } */
 
     .flash-sale-product-container{
         transform: scale(0.6);
