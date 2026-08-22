@@ -92,7 +92,6 @@ main {
 .info-section {
     display: flex;
     flex-direction: column;
-    padding-inline: 1rem;
 }
 
 .brand-name {
@@ -167,6 +166,7 @@ main {
 .quantity-section{
     display: flex;
     flex-direction: column;
+    width: 6rem;
 }
 
 .quantity-section p{
@@ -231,7 +231,7 @@ main {
 
 .size-btn {
     height: 2rem;
-    width: 2rem;
+    width: 2.5rem;
     padding: .5rem;
     border: 2px solid var(--hover-clr);
     border-radius: 6px;
@@ -277,9 +277,17 @@ main {
 .total-price{
     width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
     font-size: 1rem;
+    gap: .5rem;
+}
+
+.total-price-value{
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--black-clr);
 }
 
 .add-to-cart-btn {
@@ -294,11 +302,10 @@ main {
 
 .cart-btn{
     height: 3rem;
+    width: auto;
     display: flex;
     justify-content: flex-end;
-    gap: 1rem;
 }
-
 
 .add-to-cart-btn:hover {
     background: var(--hover-clr);
@@ -318,7 +325,7 @@ main {
 
 .section-title {
     font-size: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border-bottom: 2px solid var(--hover-clr);
     padding-bottom: 10px;
 }
@@ -337,7 +344,7 @@ main {
 }
 
 .specs-table tr {
-    border-bottom: 1px solid var(--hover-clr);
+    border: 1px solid var(--hover-clr);
 }
 
 .specs-table td {
@@ -353,6 +360,39 @@ main {
 }
 
 .specs-value {
+    color: var(--black-clr);
+}
+
+/* Review Section Styling */
+
+.review-card {
+    border: 1px solid var(--hover-clr);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    background: var(--bg-white-clr);
+}
+
+.reviewer-info{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.review-date {
+    font-size: 13px;
+    color: var(--black-clr);
+}
+
+.reviewer-name {
+    font-weight: 600;
+    color: var(--black-clr);
+}
+
+.review-text {
+    margin-top: 5px;
+    font-size: 14px;
     color: var(--black-clr);
 }
 
