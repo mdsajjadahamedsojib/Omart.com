@@ -70,13 +70,14 @@ main {
 
 .thumbnail-container {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
     justify-content: space-between;
+    align-items: center;
+    width: 360px;
 }
 
 .thumb-img {
-    width: 20%;
-    height: 100%;
+    width: 75px;
     border-radius: 8px;
     cursor: pointer;
     object-fit: contain !important;
@@ -578,6 +579,10 @@ main {
     }
 
     .thumbnail-container{
-        gap: 1.3rem;
+        width: 310px;
+    }
+
+    .thumb-img{
+        width: 60px;
     }
 }
