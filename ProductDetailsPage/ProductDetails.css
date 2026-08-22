@@ -71,7 +71,7 @@ main {
 .thumbnail-container {
     display: flex;
     gap: 1rem;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 360px;
 }
