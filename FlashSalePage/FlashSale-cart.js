@@ -1,11 +1,11 @@
-// cart.js
-
 (function () {
     let cart = JSON.parse(localStorage.getItem('omart_cart')) || [];
 
     function toggleCart() {
-        document.getElementById('cart-slider').classList.toggle('active');
-        document.getElementById('cart-backdrop').classList.toggle('active');
+        const slider = document.getElementById('cart-slider');
+        const backdrop = document.getElementById('cart-backdrop');
+        if (slider) slider.classList.toggle('active');
+        if (backdrop) backdrop.classList.toggle('active');
     }
 
     const checkoutBtn = document.getElementById('checkout-btn-id');
@@ -16,7 +16,6 @@
     }
 
     document.addEventListener('click', function (e) {
-
         if (e.target.closest('.cart-section')) {
             e.preventDefault();
             toggleCart();
@@ -26,7 +25,10 @@
             toggleCart();
         }
 
+        // Add to cart বাটন ক্লিক লজিক
         if (e.target.closest('.add-to-cart .btn')) {
+            e.stopPropagation(); // ডিটেইলস পেজে যাওয়া ঠেকাবে
+
             const productContainer = e.target.closest('.flash-sale-product-container');
             if (!productContainer) return;
 
@@ -66,32 +68,37 @@
             badge.innerText = totalItems;
         }
 
-        document.getElementById('cart-count-title').innerText = totalItems;
-        document.getElementById('cart-subtotal-price').innerText = `${totalPrice} TK`;
-
+        const countTitle = document.getElementById('cart-count-title');
+        const subtotal = document.getElementById('cart-subtotal-price');
         const container = document.getElementById('cart-items-container');
-        if (cart.length === 0) {
-            container.innerHTML = `<p style="text-align:center; padding:40px 0; color:#888;">Your cart is empty!</p>`;
-            return;
-        }
 
-        container.innerHTML = cart.map((item, index) => `
-            <div class="cart-item">
-                <img src="${item.thumbnail}">
-                <div class="cart-item-details">
-                    <h4>${item.title}</h4>
-                    <p>${item.price} TK</p>
-                    <div class="quantity-controls">
-                        <button class="q-minus" data-index="${index}">-</button>
-                        <span>${item.quantity}</span>
-                        <button class="q-plus" data-index="${index}">+</button>
+        if (countTitle) countTitle.innerText = totalItems;
+        if (subtotal) subtotal.innerText = `${totalPrice} TK`;
+
+        if (container) {
+            if (cart.length === 0) {
+                container.innerHTML = `<p style="text-align:center; padding:40px 0; color:#888;">Your cart is empty!</p>`;
+                return;
+            }
+
+            container.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <img src="${item.thumbnail}" alt="${item.title}">
+                    <div class="cart-item-details">
+                        <h4>${item.title}</h4>
+                        <p>${item.price} TK</p>
+                        <div class="quantity-controls">
+                            <button class="q-minus" data-index="${index}">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="q-plus" data-index="${index}">+</button>
+                        </div>
                     </div>
+                    <button class="delete-item-btn" data-index="${index}">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
                 </div>
-                <button class="delete-item-btn" data-index="${index}">
-                    <i class="fa-solid fa-trash-can"></i>
-                </button>
-            </div>
-        `).join('');
+            `).join('');
+        }
     }
 
     const itemsContainer = document.getElementById('cart-items-container');
@@ -115,5 +122,5 @@
         });
     }
 
-    setTimeout(updateCartUI, 500);
+    setTimeout(updateCartUI, 300);
 })();

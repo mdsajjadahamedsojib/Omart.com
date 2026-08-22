@@ -1,5 +1,3 @@
-// FlashSaleProduct.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const flashSaleSection = document.getElementById('flash-sale-section');
     const searchInput = document.querySelector('.search-input'); 
@@ -58,13 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const originalPrice = product.price;
             const discountPercentage = product.discountPercentage;
-            
             const discountedPriceInUSD = originalPrice - (originalPrice * (discountPercentage / 100));
-            
             const finalPriceInBDT = Math.round(discountedPriceInUSD * 60);
 
             return `
-                <div class="flash-sale-product-container">
+                <div class="flash-sale-product-container" onclick="openProductDetails(event, ${product.id})" style="cursor: pointer;">
 
                     <div class="flash-sale-product-offer">
                         <p class="flex"> <i class="fa-solid fa-fire-flame-curved"></i> Flash Sale</p>
@@ -106,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const filteredProducts = allProducts.filter(p => 
                 p.title.toLowerCase().includes(searchTerm) || 
-                p.category.toLowerCase().includes(searchTerm) ||
+                p.category.toLowerCase().includes(searchTerm) || 
                 (p.description && p.description.toLowerCase().includes(searchTerm))
             );
             
@@ -117,4 +113,10 @@ document.addEventListener('DOMContentLoaded', () => {
     loadFlashSaleProducts();
 });
 
-
+// ডিটেইলস পেজে যাওয়ার ফাংশন (Add to Cart বাটনে ক্লিক হলে রিডাইরেক্ট হবে না)
+function openProductDetails(event, productId) {
+    if (event.target.closest('.add-to-cart') || event.target.closest('.btn')) {
+        return; // Add to Cart বাটনে ক্লিক করলে ডিটেইলস পেজে যাবে না, কার্টে প্রোডাক্ট যুক্ত হবে
+    }
+    window.location.href = `../ProductDetailsPage/ProductDetails.html?id=${productId}`;
+}

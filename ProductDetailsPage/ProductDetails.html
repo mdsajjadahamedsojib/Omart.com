@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All-in-One Product Details Page</title>
+    <title>Omart/ProductDetails.com</title>
     <!-- External CSS Link -->
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="ProductDetails.css">
@@ -230,11 +230,18 @@
     </header>
 
     <main>
+
+        <section class="heading-section">
+            <div class="heading">
+                <h3> <i class="fa-solid fa-bolt-lightning icon"></i>Product Details</h3>
+            </div>
+        </section>
+
         <div class="main-wrapper">
 
             <!-- 1. Product Details Container -->
             <div class="product-container">
-                <div class="image-section">
+                <div class="image-section flex">
                     <div class="main-img-container">
                         <img id="main-product-image" src="#" alt="Product">
                     </div>
@@ -263,46 +270,55 @@
                     </p>
 
                     <div class="options-group">
-                        <div class="options-title">Color:</div>
-                        <div class="color-pickers">
-                            <div class="color-dot selected" style="background-color: #3b82f6;"
-                                onclick="selectColor(this)">
+                        <div class="color-section">
+                            <p>Color:</p>
+                            <div class="color-pickers">
+                                <div class="color-dot selected" style="background-color: #3b82f6;"
+                                    onclick="selectColor(this)">
+                                </div>
+                                <div class="color-dot" style="background-color: #ec4899;" onclick="selectColor(this)">
+                                </div>
+                                <div class="color-dot" style="background-color: #10b981;" onclick="selectColor(this)">
+                                </div>
                             </div>
-                            <div class="color-dot" style="background-color: #ec4899;" onclick="selectColor(this)"></div>
-                            <div class="color-dot" style="background-color: #10b981;" onclick="selectColor(this)"></div>
+                        </div>
+
+                        <div>
+                            <div class="quantity-section">
+                                <p>Quantity:</p>
+                                <div class="quantity-selector">
+                                    <button class="qty-btn flex" onclick="updateQuantity(-1)">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <input type="text" id="qty-count" class="qty-input" value="1" readonly>
+                                    <button class="qty-btn flex" onclick="updateQuantity(1)">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="options-group">
-                        <div class="options-title">
-                            Size / Variant:
-                        </div>
-                        <div class="size-pickers">
-                            <button class="size-btn selected" onclick="selectSize(this)">M</button>
-                            <button class="size-btn" onclick="selectSize(this)">L</button>
-                            <button class="size-btn" onclick="selectSize(this)">XL</button>
+                    <div class="options-group2">
+                        <div class="size-section">
+                            <p>Size:</p>
+                            <div class="size-pickers">
+                                <button class="size-btn selected" onclick="selectSize(this)">M</button>
+                                <button class="size-btn" onclick="selectSize(this)">L</button>
+                                <button class="size-btn" onclick="selectSize(this)">XL</button>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Action Section -->
                     <div class="action-section">
-                        <div class="qty-and-cart">
-                            <div class="options-title">
-                                Quantity:
-                            </div>
-                            <div class="quantity-selector">
-                                <button class="qty-btn flex" onclick="updateQuantity(-1)">
-                                    <i class="fa-solid fa-minus"></i>
-                                </button>
-                                <input type="text" id="qty-count" class="qty-input" value="1" readonly>
-                                <button class="qty-btn flex" onclick="updateQuantity(1)">
-                                    <i class="fa-solid fa-plus"></i>
-                                </button>
-                            </div>
-                            <div class="cart-btn">
-                                <h2 class="flex">Total Price:</h2>
-                                <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
-                            </div>
+                        <div class="total-price">
+                            <h3>Total Price:</h3>
+                            <div class="total-price-value" id="total-price">00 TK</div>
+                        </div>
+                        <div class="cart-btn">
+                            <button class="add-to-cart-btn" onclick="addToCart()">Buy Now</button>
+                            <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
                         </div>
                     </div>
                 </div>
@@ -336,57 +352,21 @@
 
             <!-- 4. Related Products Section -->
             <div class="related-container">
-                <h2 class="section-title">Related Products</h2>
-                <div class="related-products-grid">
-
-                    <!-- Related Product Card 1 -->
-                    <div class="related-card">
-                        <div class="related-img-holder">
-                            <img src="https://picsum.photos/id/103/300/300" alt="Related Product 1">
-                        </div>
-                        <div class="related-info">
-                            <h3 class="related-title">Premium Minimalist Watch</h3>
-                            <div class="related-price">$49.99</div>
-                        </div>
+                <div class="related-header">
+                    <h2 class="section-title" style="margin-bottom: 0; border-bottom: none;">Related Products</h2>
+                    <div class="slider-arrows">
+                        <button class="arrow-btn" id="slide-prev"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button class="arrow-btn" id="slide-next"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
+                </div>
 
-                    <!-- Related Product Card 2 -->
-                    <div class="related-card">
-                        <div class="related-img-holder">
-                            <img src="https://picsum.photos/id/104/300/300" alt="Related Product 2">
-                        </div>
-                        <div class="related-info">
-                            <h3 class="related-title">Ergonomic Wireless Mouse</h3>
-                            <div class="related-price">$19.99</div>
-                        </div>
-                    </div>
-
-                    <!-- Related Product Card 3 -->
-                    <div class="related-card">
-                        <div class="related-img-holder">
-                            <img src="https://picsum.photos/id/106/300/300" alt="Related Product 3">
-                        </div>
-                        <div class="related-info">
-                            <h3 class="related-title">Classic Leather Wallet</h3>
-                            <div class="related-price">$29.99</div>
-                        </div>
-                    </div>
-
-                    <!-- Related Product Card 4 -->
-                    <div class="related-card">
-                        <div class="related-img-holder">
-                            <img src="https://picsum.photos/id/107/300/300" alt="Related Product 4">
-                        </div>
-                        <div class="related-info">
-                            <h3 class="related-title">Smart Fitness Tracker</h3>
-                            <div class="related-price">$39.99</div>
-                        </div>
-                    </div>
-
+                <div class="related-products-slider" id="related-product-list">
+                    <!-- জাভাস্ক্রিপ্ট দিয়ে ডাইনামিক প্রোডাক্ট কার্ড এখানে যুক্ত হবে -->
                 </div>
             </div>
 
         </div>
+
     </main>
 
     <section>

@@ -7,64 +7,220 @@ function changeImage(element) {
 }
 
 // Function to select product color variant
+let selectedColor = '#3b82f6';
 function selectColor(element) {
     let colors = document.querySelectorAll('.color-dot');
     colors.forEach(color => color.classList.remove('selected'));
     element.classList.add('selected');
+    selectedColor = element.style.backgroundColor;
 }
 
 // Function to select product size variant
+let selectedSize = 'M';
 function selectSize(element) {
     let sizes = document.querySelectorAll('.size-btn');
     sizes.forEach(size => size.classList.remove('selected'));
     element.classList.add('selected');
+    selectedSize = element.innerText;
 }
 
-// Function to increase/decrease quantity counter
+// Global variable to track current product & unit price
+let currentProduct = null;
+let unitPriceBDT = 0;
+
+// Quantity counter & Total Price Update
 function updateQuantity(change) {
     let qtyInput = document.getElementById('qty-count');
-    let currentQty = parseInt(qtyInput.value);
+    let currentQty = parseInt(qtyInput.value) || 1;
     let newQty = currentQty + change;
+    
     if (newQty >= 1) {
         qtyInput.value = newQty;
+        updateTotalPrice(newQty);
     }
 }
 
-// Action for Add to Cart
+function updateTotalPrice(qty) {
+    const totalPriceEl = document.getElementById('total-price');
+    if (totalPriceEl && unitPriceBDT > 0) {
+        totalPriceEl.innerText = `${unitPriceBDT * qty} Tk`;
+    }
+}
+
+// ---------------- CART SLIDER & LOCAL STORAGE LOGIC ---------------- //
+
+function getCart() {
+    return JSON.parse(localStorage.getItem('omart_cart')) || [];
+}
+
+function saveCart(cart) {
+    localStorage.setItem('omart_cart', JSON.stringify(cart));
+    renderCartDrawer();
+}
+
+function openCartSlider() {
+    const slider = document.getElementById('cart-slider');
+    const backdrop = document.getElementById('cart-backdrop');
+    if (slider) slider.classList.add('active');
+    if (backdrop) backdrop.classList.add('active');
+}
+
+function closeCartSlider() {
+    const slider = document.getElementById('cart-slider');
+    const backdrop = document.getElementById('cart-backdrop');
+    if (slider) slider.classList.remove('active');
+    if (backdrop) backdrop.classList.remove('active');
+}
+
 function addToCart() {
-    let qty = document.getElementById('qty-count').value;
-    alert(qty + ' product(s) successfully added to your cart!');
+    if (!currentProduct) return;
+
+    let qty = parseInt(document.getElementById('qty-count').value) || 1;
+    let cart = getCart();
+
+    const existingIndex = cart.findIndex(item => item.id === currentProduct.id);
+
+    if (existingIndex > -1) {
+        cart[existingIndex].quantity += qty;
+    } else {
+        cart.push({
+            id: currentProduct.id,
+            title: currentProduct.title,
+            price: unitPriceBDT,
+            thumbnail: currentProduct.thumbnail || currentProduct.image,
+            quantity: qty
+        });
+    }
+
+    saveCart(cart);
+    openCartSlider();
 }
 
-// Action for Buy Now
-function buyNow() {
-    let qty = document.getElementById('qty-count').value;
-    alert('Proceeding directly to checkout with ' + qty + ' item(s)...');
+function removeFromCart(index) {
+    let cart = getCart();
+    cart.splice(index, 1);
+    saveCart(cart);
 }
 
-// ১. URL থেকে আইডি বের করা
+function updateCartItemQty(index, change) {
+    let cart = getCart();
+    cart[index].quantity += change;
+    if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+    }
+    saveCart(cart);
+}
+
+// 1st Image এর মতো কার্ট আইটেম রেন্ডার করার লজিক
+function renderCartDrawer() {
+    const cart = getCart();
+    const cartContainer = document.getElementById('cart-items-container');
+    const subtotalEl = document.getElementById('cart-subtotal-price');
+    const cartCountTitle = document.getElementById('cart-count-title');
+    const headerCartCount = document.querySelector('.cart-section .cart-count');
+
+    let totalCount = 0;
+    let totalPrice = 0;
+
+    if (cartContainer) {
+        if (cart.length === 0) {
+            cartContainer.innerHTML = '<p style="text-align:center; padding: 20px; color: #666;">Your cart is empty.</p>';
+        } else {
+            cartContainer.innerHTML = cart.map((item, index) => {
+                totalCount += item.quantity;
+                totalPrice += item.price * item.quantity;
+                
+                let imgSrc = item.thumbnail || item.image;
+                if (imgSrc && !imgSrc.startsWith('http') && !imgSrc.startsWith('../') && !imgSrc.startsWith('./')) {
+                    imgSrc = `../${imgSrc}`;
+                }
+
+                return `
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 2px solid #00adef; gap: 10px;">
+                        
+                        <!-- Product Image -->
+                        <div style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <img src="${imgSrc}" alt="${item.title}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                        </div>
+
+                        <!-- Product Title & Controls -->
+                        <div style="flex: 1;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: #2563eb; margin: 0 0 6px 0; line-height: 1.2;">
+                                ${item.title}
+                            </h4>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button onclick="updateCartItemQty(${index}, -1)" 
+                                    style="width: 22px; height: 22px; border-radius: 50%; background-color: #00adef; color: white; border: none; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; line-height: 1;">
+                                    -
+                                </button>
+                                <span style="font-size: 13px; font-weight: 600; color: #111;">${item.quantity}</span>
+                                <button onclick="updateCartItemQty(${index}, 1)" 
+                                    style="width: 22px; height: 22px; border-radius: 50%; background-color: #00adef; color: white; border: none; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; line-height: 1;">
+                                    +
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Price -->
+                        <div style="font-size: 13px; font-weight: 700; color: #111; white-space: nowrap;">
+                            ${item.price} TK
+                        </div>
+
+                        <!-- Blue Trash Icon -->
+                        <button onclick="removeFromCart(${index})" 
+                            style="background: none; border: none; color: #2563eb; cursor: pointer; font-size: 16px; padding: 4px; display: flex; align-items: center;">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+
+                    </div>
+                `;
+            }).join('');
+        }
+    }
+
+    if (subtotalEl) subtotalEl.innerText = `${totalPrice} TK`;
+    if (cartCountTitle) cartCountTitle.innerText = `(${totalCount})`;
+    if (headerCartCount) headerCartCount.innerText = totalCount;
+}
+
+// ---------------- EVENT LISTENERS FOR CART DRAWER ---------------- //
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderCartDrawer();
+
+    const cartBtn = document.querySelector('.cart-section a.nav-btn');
+    const closeBtn = document.getElementById('cart-close-id');
+    const backdrop = document.getElementById('cart-backdrop');
+
+    if (cartBtn) {
+        cartBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openCartSlider();
+        });
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', closeCartSlider);
+    if (backdrop) backdrop.addEventListener('click', closeCartSlider);
+});
+
+// ---------------- DATA FETCHING ---------------- //
+
 const urlParams = new URLSearchParams(window.location.search);
-const productId = urlParams.get('id');
+const productId = urlParams.get('id') || 1;
 
-// ২. আইডি পাওয়া গেলে DummyJSON থেকে প্রোডাক্টের স্পেসিফিক ডেটা আনা
-if (productId) {
-    fetch(`https://dummyjson.com/products/${productId}`)
-        .then(res => res.json())
-        .then(product => {
-            displayProductDetails(product);
-        })
-        .catch(err => console.error("Error fetching product:", err));
-} else {
-    console.log("No product ID found in the URL. Redirect bypassed.");
-}
+fetch(`https://dummyjson.com/products/${productId}`)
+    .then(res => res.json())
+    .then(product => {
+        currentProduct = product;
+        displayProductDetails(product);
+        fetchRelatedProducts(product.category, product.id);
+    })
+    .catch(err => console.error("Error fetching product details:", err));
 
-// ৩. ডিটেইলস পেজের HTML-এ ডেটা পুশ করা
 function displayProductDetails(product) {
-    // ছবি পরিবর্তন
     const mainImg = document.getElementById('main-product-image');
     if (mainImg) mainImg.src = product.thumbnail;
     
-    // ডাইনামিক থাম্বনেইল গ্যালারি
     const thumbnailContainer = document.querySelector('.thumbnail-container');
     if (thumbnailContainer && product.images) {
         thumbnailContainer.innerHTML = '';
@@ -72,49 +228,32 @@ function displayProductDetails(product) {
             const img = document.createElement('img');
             img.className = `thumb-img ${index === 0 ? 'active' : ''}`;
             img.src = imgUrl;
-            img.alt = `${product.title} view ${index + 1}`;
+            img.alt = product.title;
             img.onclick = function() { changeImage(this); };
             thumbnailContainer.appendChild(img);
         });
     }
     
-    // টাইটেল, BRAND, প্রাইস এবং ডেসক্রিপশন
-    const halfPriceInBDT = Math.round(product.price * 60);
-    
+    unitPriceBDT = Math.round(product.price * 60);
     document.querySelector('.product-title').innerText = product.title;
-    document.querySelector('.brand-name').innerText = product.brand || "Premium Quality";
-    document.querySelector('.price-tag').innerText = `${halfPriceInBDT} Tk`;
+    document.querySelector('.brand-name').innerText = product.brand || "PREMIUM BRAND";
+    document.querySelector('.price-tag').innerText = `${unitPriceBDT} Tk`;
     document.querySelector('.product-desc').innerText = product.description;
 
-    // --- ডাইনামিক কালার অপশন (.color-pickers) ---
-    const colorContainer = document.querySelector('.color-pickers');
-    if (colorContainer) {
-        colorContainer.innerHTML = '';
-        const availableColors = product.colors || ["#3b82f6", "#ec4899", "#10b981"];
-        availableColors.forEach((color, index) => {
-            const colorDot = document.createElement('div');
-            colorDot.className = `color-dot ${index === 0 ? 'selected' : ''}`;
-            colorDot.style.backgroundColor = color;
-            colorDot.onclick = function() { selectColor(this); };
-            colorContainer.appendChild(colorDot);
-        });
+    document.getElementById('qty-count').value = 1;
+    updateTotalPrice(1);
+
+    const positiveReviews = product.reviews ? product.reviews.filter(rev => rev.rating >= 4) : [];
+
+    const ratingSummary = document.querySelector('.rating-summary');
+    if (ratingSummary) {
+        let stars = '★'.repeat(Math.round(product.rating)) + '☆'.repeat(5 - Math.round(product.rating));
+        ratingSummary.innerHTML = `
+            <span class="stars" style="color: #f59e0b;">${stars}</span>
+            <span class="review-count">(${positiveReviews.length} Top Reviews)</span>
+        `;
     }
 
-    // --- ডাইনামিক সাইজ অপশন (.size-pickers) ---
-    const sizeContainer = document.querySelector('.size-pickers');
-    if (sizeContainer) {
-        sizeContainer.innerHTML = '';
-        const availableSizes = product.sizes || ["M", "L", "XL"];
-        availableSizes.forEach((size, index) => {
-            const sizeBtn = document.createElement('button');
-            sizeBtn.className = `size-btn ${index === 0 ? 'selected' : ''}`;
-            sizeBtn.innerText = size;
-            sizeBtn.onclick = function() { selectSize(this); };
-            sizeContainer.appendChild(sizeBtn);
-        });
-    }
-
-    // স্পেসিফিকেশন টেবিল আপডেট করা
     const specsTable = document.querySelector('.specs-table');
     if (specsTable) {
         specsTable.innerHTML = `
@@ -137,84 +276,89 @@ function displayProductDetails(product) {
         `;
     }
 
-    // --- ডাইনামিক কাস্টমার রিভিউ সেকশন (.reviews-container) ---
     const reviewsContainer = document.querySelector('.reviews-container');
     if (reviewsContainer) {
-        reviewsContainer.innerHTML = '';
+        reviewsContainer.innerHTML = '<h2 class="section-title">Customer Reviews</h2>';
         
-        const title = document.createElement('h2');
-        title.className = 'section-title';
-        title.innerText = 'Customer Reviews';
-        reviewsContainer.appendChild(title);
-        
-        if (product.reviews && product.reviews.length > 0) {
-            // শুধুমাত্র ৩, ৪ এবং ৫ স্টারের ভালো রিভিউগুলো ফিল্টার করা হলো
-            const goodReviews = product.reviews.filter(review => review.rating && Number(review.rating) > 2);
-
-            if (goodReviews.length > 0) {
-                goodReviews.forEach(review => {
-                    const card = document.createElement('div');
-                    card.className = 'review-card';
-
-                    const info = document.createElement('div');
-                    info.className = 'reviewer-info';
-
-                    const nameSpan = document.createElement('span');
-                    nameSpan.className = 'reviewer-name';
-                    
-                    let stars = '';
-                    for (let i = 1; i <= 5; i++) {
-                        stars += i <= review.rating ? '★' : '☆';
-                    }
-                    nameSpan.innerHTML = `${review.reviewerName} <span class="review-stars">${stars}</span>`;
-
-                    const dateSpan = document.createElement('span');
-                    dateSpan.className = 'review-date';
-                    dateSpan.innerText = new Date(review.date).toLocaleDateString();
-
-                    info.appendChild(nameSpan);
-                    info.appendChild(dateSpan);
-
-                    const text = document.createElement('p');
-                    text.className = 'review-text';
-
-                    // API এর খারাপ বা সাধারণ কমেন্টগুলোকে চমৎকার ও প্রফেশনাল কমেন্টে রূপান্তর করার লজিক
-                    let customizedComment = review.comment;
-                    const lowerComment = review.comment.toLowerCase();
-
-                    if (review.rating === 5) {
-                        if (lowerComment.includes('bad') || lowerComment.includes('unhappy') || lowerComment.includes('disappointed') || lowerComment.includes('waste')) {
-                            customizedComment = "Absolutely amazing product! The quality exceeded my expectations. Highly recommended!";
-                        } else {
-                            customizedComment = "Highly recommended! Premium quality and super fast delivery. Completely satisfied.";
-                        }
-                    } else if (review.rating === 4) {
-                        if (lowerComment.includes('bad') || lowerComment.includes('unhappy') || lowerComment.includes('disappointed')) {
-                            customizedComment = "Great product and excellent value for money. Packaging could be slightly better, but overall happy.";
-                        } else {
-                            customizedComment = "Very good product. Satisfied with the purchase and would buy again.";
-                        }
-                    } else if (review.rating === 3) {
-                        customizedComment = "Decent product for the price. It does the job well enough.";
-                    }
-
-                    text.innerText = customizedComment;
-
-                    card.appendChild(info);
-                    card.appendChild(text);
-                    reviewsContainer.appendChild(card);
-                });
-            } else {
-                const noReview = document.createElement('p');
-                noReview.className = 'no-reviews-text';
-                noReview.innerText = 'No reviews available for this product.';
-                reviewsContainer.appendChild(noReview);
-            }
+        if (positiveReviews.length > 0) {
+            positiveReviews.forEach(review => {
+                let stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+                const card = document.createElement('div');
+                card.className = 'review-card';
+                card.innerHTML = `
+                    <div class="reviewer-info">
+                        <span class="reviewer-name">${review.reviewerName} <span class="review-stars" style="color: #f59e0b;">${stars}</span></span>
+                        <span class="review-date">${new Date(review.date).toLocaleDateString()}</span>
+                    </div>
+                    <p class="review-text">${review.comment}</p>
+                `;
+                reviewsContainer.appendChild(card);
+            });
         } else {
-            const noReview = document.createElement('p');
-            noReview.className = 'no-reviews-text';
-            noReview.innerText = 'No reviews available for this product.';
-            reviewsContainer.appendChild(noReview);
+            reviewsContainer.innerHTML += '<p class="no-reviews-text">No positive reviews available for this product.</p>';
         }
     }
+}
+
+function fetchRelatedProducts(category, currentId) {
+    const sliderContainer = document.getElementById('related-product-list');
+    if (!sliderContainer) return;
+
+    fetch(`https://dummyjson.com/products/category/${category}`)
+        .then(res => res.json())
+        .then(data => {
+            let relatedList = data.products.filter(item => item.id !== currentId);
+
+            if (relatedList.length === 0) {
+                fetch('https://dummyjson.com/products?limit=10')
+                    .then(r => r.json())
+                    .then(d => renderSlider(d.products.filter(item => item.id !== currentId)));
+            } else {
+                renderSlider(relatedList);
+            }
+        })
+        .catch(err => console.error("Error loading related products:", err));
+}
+
+function renderSlider(products) {
+    const slider = document.getElementById('related-product-list');
+    if (!slider) return;
+
+    slider.innerHTML = products.map(item => {
+        const bdtPrice = Math.round(item.price * 60);
+        return `
+            <div class="related-card" onclick="goToProduct(${item.id})">
+                <div class="related-img-holder">
+                    <img src="${item.thumbnail}" alt="${item.title}" loading="lazy">
+                </div>
+                <div class="related-info">
+                    <h3 class="related-title" title="${item.title}">${item.title}</h3>
+                    <div class="related-meta">
+                        <span class="related-price">${bdtPrice} TK</span>
+                        <span class="related-rating"><i class="fa-solid fa-star"></i> ${item.rating}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function goToProduct(id) {
+    window.location.href = `ProductDetails.html?id=${id}`;
+}
+
+const prevBtn = document.getElementById('slide-prev');
+const nextBtn = document.getElementById('slide-next');
+const slider = document.getElementById('related-product-list');
+
+if (nextBtn && slider) {
+    nextBtn.addEventListener('click', () => {
+        slider.scrollBy({ left: 240, behavior: 'smooth' });
+    });
+}
+
+if (prevBtn && slider) {
+    prevBtn.addEventListener('click', () => {
+        slider.scrollBy({ left: -240, behavior: 'smooth' });
+    });
 }
