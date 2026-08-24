@@ -90,7 +90,7 @@ loadHeroImages();
 //---------- FETCHING DATA (1 product per category) ----------//
 
 const productContainer = document.getElementById('product-container');
-let allProducts = []; 
+let allProducts = [];
 
 async function loadEcomProducts() {
     try {
@@ -102,7 +102,7 @@ async function loadEcomProducts() {
 
         // প্রতিটি ক্যাটাগরি ট্র্যাক করার জন্য Set
         const seenCategories = new Set();
-        
+
         // শুধু যে ক্যাটাগরিগুলো আগে দেখা যায়নি, সেগুলোর প্রথম প্রোডাক্ট নেওয়া হচ্ছে
         allProducts = rawProducts.filter(product => {
             if (!seenCategories.has(product.category)) {
@@ -112,7 +112,7 @@ async function loadEcomProducts() {
             return false; // ক্যাটাগরি ইতোমধ্যে থাকলে স্কিপ করবে
         });
 
-        renderProducts(allProducts); 
+        renderProducts(allProducts);
 
     } catch (error) {
         console.error('Error:', error);
@@ -137,8 +137,8 @@ function renderProducts(products) {
 
         // Rating Logic
         let rating = product.rating;
-        const integerPart = Math.floor(rating); 
-        const decimalPart = rating - integerPart; 
+        const integerPart = Math.floor(rating);
+        const decimalPart = rating - integerPart;
 
         if (decimalPart > 0.5) {
             rating = integerPart + 0.5;
@@ -153,9 +153,9 @@ function renderProducts(products) {
             if (i < floorRating) {
                 starsHTML += '<i class="fa-solid fa-star icon1"></i>';
             } else if (i === floorRating && (rating % 1) >= 0.5) {
-                starsHTML += '<i class="fa-solid fa-star-half-stroke icon1"></i>'; 
+                starsHTML += '<i class="fa-solid fa-star-half-stroke icon1"></i>';
             } else {
-                starsHTML += '<i class="fa-regular fa-star icon1"></i>'; 
+                starsHTML += '<i class="fa-regular fa-star icon1"></i>';
             }
         }
 
