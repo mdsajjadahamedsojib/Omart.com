@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     const flashSaleSection = document.getElementById('flash-sale-section');
-    const searchInput = document.querySelector('.search-input'); 
 
     let allProducts = [];
 
@@ -91,32 +90,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join('');
     }
 
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            
-            if (searchTerm === "") {
-                renderProducts(allProducts);
-                return;
-            }
-
-            const filteredProducts = allProducts.filter(p => 
-                p.title.toLowerCase().includes(searchTerm) || 
-                p.category.toLowerCase().includes(searchTerm) || 
-                (p.description && p.description.toLowerCase().includes(searchTerm))
-            );
-            
-            renderProducts(filteredProducts);
-        });
-    }
-
     loadFlashSaleProducts();
 });
 
-// ডিটেইলস পেজে যাওয়ার ফাংশন (Add to Cart বাটনে ক্লিক হলে রিডাইরেক্ট হবে না)
+// ডিটেইলস পেজে যাওয়ার ফাংশন (Add to Cart বাটনে ক্লিক হলে রিডাইরেক্ট হবে না)
 function openProductDetails(event, productId) {
     if (event.target.closest('.add-to-cart') || event.target.closest('.btn')) {
-        return; // Add to Cart বাটনে ক্লিক করলে ডিটেইলস পেজে যাবে না, কার্টে প্রোডাক্ট যুক্ত হবে
+        return; // Add to Cart বাটনে ক্লিক করলে ডিটেইলস পেজে যাবে না
     }
     window.location.href = `../ProductDetailsPage/ProductDetails.html?id=${productId}`;
 }

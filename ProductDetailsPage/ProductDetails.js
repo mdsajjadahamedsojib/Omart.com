@@ -45,11 +45,13 @@ function displayProductDetails(product) {
         mainImg.src = product.thumbnail || (product.images && product.images[0]) || '';
     }
     
-    // থাম্বনেইল গ্যালারি
+    // থাম্বনেইল গ্যালারি (সর্বোচ্চ ৪টি ইমেজ)
     const thumbnailContainer = document.querySelector('.thumbnail-container');
     if (thumbnailContainer && product.images && product.images.length > 0) {
         thumbnailContainer.innerHTML = '';
-        product.images.forEach((imgUrl, index) => {
+        
+        // slice(0, 4) এর মাধ্যমে সর্বোচ্চ ৪টি ইমেজ লুপ হবে
+        product.images.slice(0, 4).forEach((imgUrl, index) => {
             const img = document.createElement('img');
             img.className = `thumb-img ${index === 0 ? 'active' : ''}`;
             img.src = imgUrl;

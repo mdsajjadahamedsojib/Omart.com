@@ -87,11 +87,9 @@ loadHeroImages();
 
 
 
-//---------- FETCHING DATA & BUILD-IN SEARCH FILTER ----------//
+//---------- FETCHING DATA (1 product per category) ----------//
 
 const productContainer = document.getElementById('product-container');
-const searchInput = document.querySelector('.search-input'); 
-
 let allProducts = []; 
 
 async function loadEcomProducts() {
@@ -102,21 +100,16 @@ async function loadEcomProducts() {
         const data = await response.json();
         const rawProducts = data.products;
 
-        const categoryCount = {}; 
+        // প্রতিটি ক্যাটাগরি ট্র্যাক করার জন্য Set
+        const seenCategories = new Set();
         
+        // শুধু যে ক্যাটাগরিগুলো আগে দেখা যায়নি, সেগুলোর প্রথম প্রোডাক্ট নেওয়া হচ্ছে
         allProducts = rawProducts.filter(product => {
-            const category = product.category;
-
-            if (!categoryCount[category]) {
-                categoryCount[category] = 0;
+            if (!seenCategories.has(product.category)) {
+                seenCategories.add(product.category);
+                return true; // নতুন ক্যাটাগরি হলে ১টি প্রোডাক্ট যোগ হবে
             }
-
-            if (categoryCount[category] < 2) {
-                categoryCount[category]++;
-                return true; 
-            }
-
-            return false; 
+            return false; // ক্যাটাগরি ইতোমধ্যে থাকলে স্কিপ করবে
         });
 
         renderProducts(allProducts); 
@@ -130,7 +123,7 @@ async function loadEcomProducts() {
     }
 }
 
-//Function to render the product.
+// Function to render the product
 function renderProducts(products) {
     if (!productContainer) return;
 
@@ -142,7 +135,7 @@ function renderProducts(products) {
 
     productContainer.innerHTML = products.map(product => {
 
-        // Rating Logic.
+        // Rating Logic
         let rating = product.rating;
         const integerPart = Math.floor(rating); 
         const decimalPart = rating - integerPart; 
@@ -153,7 +146,7 @@ function renderProducts(products) {
             rating = parseFloat(rating.toFixed(1));
         }
 
-        // Star Generation Logic.
+        // Star Generation Logic
         const floorRating = Math.floor(rating);
         let starsHTML = '';
         for (let i = 0; i < 5; i++) {
@@ -168,7 +161,6 @@ function renderProducts(products) {
 
         const halfPriceInBDT = Math.round(product.price * 60);
 
-        // কার্ডে onclick যুক্ত করা হয়েছে
         return `
             <div class="card-product" onclick="goToProductDetails(${product.id})">
 
@@ -201,25 +193,9 @@ function renderProducts(products) {
     }).join('');
 }
 
-// কার্ডে ক্লিক করলে ফোল্ডারের ভেতরের ফাইলে নিয়ে যাবে
+// Product details navigation
 function goToProductDetails(productId) {
     window.location.href = `ProductDetailsPage/ProductDetails.html?id=${productId}`;
-}
-
-/*------------ Search Filter Logic -------------*/
-if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        
-        if (searchTerm === "") {
-            renderProducts(allProducts); 
-            return;
-        }
-
-        const filteredProducts = allProducts.filter(p => p.title.toLowerCase().includes(searchTerm) || p.category.toLowerCase().includes(searchTerm) || (p.description && p.description.toLowerCase().includes(searchTerm)));
-        
-        renderProducts(filteredProducts);
-    });
 }
 
 loadEcomProducts();

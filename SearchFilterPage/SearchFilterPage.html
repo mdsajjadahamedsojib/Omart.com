@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omart/AbouthUs.com</title>
+    <title>Search Results</title>
+    <!-- FontAwesome Stars Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Updated CSS Link -->
+    <link rel="stylesheet" href="SearchFilterPage.css">
     <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="AboutUs.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
+
+    <!-------------------------------- HEADER SECTION -------------------------------->
     <header>
         <!------------ NAVBAR SECTION ------------>
         <section class="navbar">
@@ -112,7 +114,7 @@
                     </button>
                 </div>
 
-                <!------------ NAVLIST ELEMENT POPUP ------------>
+                <!------------ NAVLIST POPPUP ELEMENT ------------>
                 <div class="nav-list-element-poppup flex" id="navlist-popup">
                     <div class="nav-element-close-btn flex">
                         <button class="close-btn flex" onclick="closeNavlistPopup()">
@@ -130,7 +132,7 @@
                         </div>
                          <div class="nav-list-element btn">
                             <li>
-                                <a href="../FlashSalePage/FlashSale.html">
+                                <a href="FlashSale.html">
                                     <i class="fa-solid fa-bolt-lightning icon"></i>
                                     <p class="pera-2">Flash Sale</p>
                                 </a>
@@ -147,7 +149,7 @@
 
                         <div class="nav-list-element btn">
                             <li>
-                                <a href="AboutUs.html">
+                                <a href="../AboutPage/AboutUs.html">
                                     <i class="fa-solid fa-circle-question icon"></i>
                                     <p class="pera-2">About Us</p>
                                 </a>
@@ -161,7 +163,7 @@
                                 </a>
                             </li>
                         </div>
-                       <div class="nav-list-element btn">
+                        <div class="nav-list-element btn">
                             <li>
                                 <a class="nav-btn flex" onclick="openPopup()">
                                     <i class="fa-solid fa-user icon"></i>
@@ -200,7 +202,7 @@
                     </div>
                     <div class="nav-list-element hide">
                         <li>
-                            <a href="AboutUs.html">
+                            <a href="../AboutPage/AboutUs.html">
                                 <i class="fa-solid fa-circle-question icon"></i>
                                 <p class="pera-2">About Us</p>
                             </a>
@@ -231,117 +233,54 @@
 
     <main>
         <section class="heading-section">
-            <div class="heading flex">
-                <h3> <i class="fa-solid fa-circle-question icon"></i> About Us</h3>
+
+            <div class="heading">
+                <h3> <i class="fa-solid fa-filter icon"></i> Explore Your Search Results...</h3>
             </div>
+
         </section>
 
-        <section class="section story-section">
-            <h2><i class="fa-solid fa-book-open"></i> Our Story</h2>
-            <p><strong>Omart</strong> was founded in <strong>12/March/2025</strong> with a grand vision— to deliver
-                high-quality products to everyone across Bangladesh. We realized that finding genuinely good products
-                online was often difficult. To solve this problem, we created <strong>Omart</strong> Our objective isn't
-                just to sell; it's to give you a trustworthy and superior shopping experience.</p>
-            <blockquote class="mission-quote">
-                "Our mission is to transform every purchase you make into a moment of pure 'Happiness'."
-            </blockquote>
-        </section>
+        <section class="search-filter-product-section flex" id="search-filter-section">
 
-        <section class="section why-choose-us-section">
-            <h2> <i class="fa-solid fa-circle-question icon2"></i> Why Choose Us?</h2>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <i class="fas fa-medal icon-size"></i>
-                    <h3>Best Quality</h3>
-                    <p>We exclusively select Carefully Selected Diverse Products that exceeds standard
-                        benchmarks.</p>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-tags icon-size"></i>
-                    <h3>Fair Pricing</h3>
-                    <p>By eliminating middlemen, we offer you the best product at the most competitive price.
-                    </p>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-handshake icon-size"></i>
-                    <h3>Transparency</h3>
-                    <p>Shipping times, product details, or return policies—we believe in being open about
-                        everything.</p>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-headset icon-size"></i>
-                    <h3>Customer First</h3>
-                    <p>Our 24/7 Live Chat and Support & Instant Support via WhatsApp/Messenger is always
-                        ready for your needs.</p>
-                </div>
-            </div>
-        </section>
+            <div class="search-filter-product-container">
 
-        <section class="section team-section">
-            <h2> <i class="fa-solid fa-people-carry-box "></i> Our Team</h2>
-            <div class="team-member">
-                <i class="fas fa-user-tie icon2"></i>
-                <p><strong>MD Sajjad Ahamed Sojib:</strong> The visionary behind our brand’s commitment to local
-                    artisans.</p>
-            </div>
-            <div class="team-member">
-                <i class="fas fa-shipping-fast icon2"></i>
-                <p><strong>Logistics Team:</strong> Our experts who ensure your order reaches you on time, every time.
-                </p>
-            </div>
-        </section>
+                <!-- <div class="search-filter-product-offer">
+                    <p class="flex"> <i class="fa-solid fa-fire-flame-curved"></i> HOT DEALS</p>
+                    <span class="flex">35% off</span>
+                    <img
+                        src="https://img.drz.lazcdn.com/static/bd/p/b5d7c5654dcd418cd0c72e535df009ff.jpg_400x400q80.jpg_.webp">
+                </div>
 
-        <section class="section contact-section flex">
-            <h2> <i class="fa-solid fa-square-phone"></i> Are You Ready to Shop?</h2>
-            <div class="contact-buttons flex">
-                <a href="../index.html" class="btn">
-                    <h4>Visit Now </h4>
-                </a>
-                <a href="../ContactPage/ContactUs.html" class="btn">
-                    <h4>Contact Us </h4>
-                </a>
+                <div class="search-filter-product-details">
+                    <p>HE05X bluetooth headphone 5.0 IPX5 Waterproof Neckband</p>
+                </div>
+
+                <div class="search-filter-product-ratings flex">
+                    <div class="product-ratings flex">
+                        <i class="fa-solid fa-star icon1"></i>
+                        <i class="fa-solid fa-star icon1"></i>
+                        <i class="fa-solid fa-star icon1"></i>
+                        <i class="fa-solid fa-star icon1"></i>
+                        <i class="fa-solid fa-star-half-stroke icon1"></i>
+                        <p>4.5</p>
+                    </div>
+                    <h4>Price : 350 TK</h4>
+                </div>
+
+                <div class="add-to-cart flex">
+                    <button class="btn">
+                        <h4>Add to cart</h4>
+                    </button>
+                </div> -->                                      
+
             </div>
+
         </section>
     </main>
 
-    <footer>
-        <!------------ FOOTER ------------>
-        <div class="footer-all flex">
-            <div class="copy-right">
-                <span>&copy; 2025 <strong>Omart.com</strong> All Rights Reserved | Developed by SAS</span>
-            </div>
-        </div>
-    </footer>
-
-    <section>
-        <div class="cart-slider-backdrop" id="cart-backdrop"></div>
-        
-        <div class="cart-slider" id="cart-slider">
-            <div class="cart-slider-header">
-                <h2>Shopping Cart (<span id="cart-count-title">0</span>)</h2>
-                <button class="cart-close-btn" id="cart-close-id">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <div class="cart-slider-items" id="cart-items-container"></div>
-
-            <div class="cart-slider-footer">
-                <div class="cart-total">
-                    <h3>Subtotal:</h3>
-                    <h3 id="cart-subtotal-price">0 TK</h3>
-                </div>
-                <button class="checkout-btn" id="checkout-btn-id">Proceed to Checkout</button>
-            </div>
-        </div>
-    </section>
-
-
-
+    <!-- Updated JS Link -->
     <script src="../login.js"></script>
-    <script src="../FlashSalePage/FlashSale-cart.js"></script>
-
-    <script src="../SearchFilterPage/SearchFilterPage.js"></script>
+    <script src="SearchFilterPage.js"></script>
 </body>
 
 </html>
