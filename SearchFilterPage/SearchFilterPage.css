@@ -76,3 +76,19 @@ main{
 .add-to-cart{
     margin-block: .5rem;
 }
+
+
+
+
+
+
+@media (max-width: 380px) {
+    .search-filter-product-container{
+        transform: scale(0.65);
+        margin: -3rem -2.5rem;
+    }
+
+    .search-filter-product-section{
+        gap: .2rem 1rem;
+    }
+}

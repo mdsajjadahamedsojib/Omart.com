@@ -132,7 +132,7 @@
                         </div>
                          <div class="nav-list-element btn">
                             <li>
-                                <a href="FlashSale.html">
+                                <a href="../FlashSalePage/FlashSale.html">
                                     <i class="fa-solid fa-bolt-lightning icon"></i>
                                     <p class="pera-2">Flash Sale</p>
                                 </a>
@@ -278,9 +278,32 @@
         </section>
     </main>
 
+    <section>
+        <div class="cart-slider-backdrop" id="cart-backdrop"></div>
+        <div class="cart-slider" id="cart-slider">
+            <div class="cart-slider-header">
+                <h2>Shopping Cart (<span id="cart-count-title">0</span>)</h2>
+                <button class="cart-close-btn" id="cart-close-id">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="cart-slider-items" id="cart-items-container"></div>
+
+            <div class="cart-slider-footer">
+                <div class="cart-total">
+                    <h3>Subtotal:</h3>
+                    <h3 id="cart-subtotal-price">0 TK</h3>
+                </div>
+                <button class="checkout-btn" id="checkout-btn-id">Proceed to Checkout</button>
+            </div>
+        </div>
+    </section>
+
     <!-- Updated JS Link -->
     <script src="../login.js"></script>
     <script src="SearchFilterPage.js"></script>
+    <script src="../FlashSalePage/FlashSale-cart.js"></script>
 </body>
 
 </html>

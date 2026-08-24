@@ -1007,6 +1007,7 @@ body.dark-theme .cart-slider-header {
 }
 
 .cart-slider-items {
+    max-height: 56vh;
     flex: 1;
     overflow-y: auto;
     padding: 20px;
