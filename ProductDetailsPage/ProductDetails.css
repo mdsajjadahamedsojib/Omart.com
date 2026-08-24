@@ -154,7 +154,7 @@ main {
     margin-block: .2rem;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    gap: 3.5rem;
 }
 .options-group2 {
     margin-block: .2rem;
@@ -487,6 +487,7 @@ main {
     height: 100%;
     object-fit: contain;
     transition: transform 0.3s ease;
+    background-color: var(--bg-white-clr);
 }
 
 .related-card:hover .related-img-holder img {
