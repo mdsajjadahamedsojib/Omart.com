@@ -51,7 +51,6 @@ function closeNavlistPopup() {
 
 
 
-
 //---------- OMART UNIVERSAL CART SYSTEM ----------//
 
 (function () {
@@ -87,13 +86,14 @@ function closeNavlistPopup() {
                 navBtn.appendChild(badge);
             }
             badge.innerText = totalItems;
+            badge.style.display = totalItems > 0 ? 'inline-block' : 'none';
         }
 
         const countTitle = document.getElementById('cart-count-title');
         const subtotal = document.getElementById('cart-subtotal-price');
         const container = document.getElementById('cart-items-container');
 
-        if (countTitle) countTitle.innerText = totalItems;
+        if (countTitle) countTitle.innerText = `(${totalItems})`;
         if (subtotal) subtotal.innerText = `${totalPrice} TK`;
 
         if (container) {
@@ -102,23 +102,28 @@ function closeNavlistPopup() {
                 return;
             }
 
-            container.innerHTML = cart.map((item, index) => `
-                <div class="cart-item">
-                    <img src="${item.thumbnail}" alt="${item.title}">
-                    <div class="cart-item-details">
-                        <h4>${item.title}</h4>
-                        <p>${item.price} TK</p>
-                        <div class="quantity-controls">
-                            <button class="q-minus" data-index="${index}">-</button>
-                            <span>${item.quantity}</span>
-                            <button class="q-plus" data-index="${index}">+</button>
+            container.innerHTML = cart.map((item, index) => {
+                let imgSrc = item.thumbnail || item.image || '';
+                return `
+                    <div class="cart-item" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 2px solid #00adef; gap: 10px;">
+                        <div style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <img src="${imgSrc}" alt="${item.title}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                         </div>
+                        <div style="flex: 1;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: #2563eb; margin: 0 0 6px 0; line-height: 1.2;">${item.title.length > 20 ? item.title.substring(0, 20) + '...' : item.title}</h4>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button class="q-minus" data-index="${index}" style="width: 22px; height: 22px; border-radius: 50%; background-color: #00adef; color: white; border: none; cursor: pointer;">-</button>
+                                <span style="font-size: 13px; font-weight: 600;">${item.quantity}</span>
+                                <button class="q-plus" data-index="${index}" style="width: 22px; height: 22px; border-radius: 50%; background-color: #00adef; color: white; border: none; cursor: pointer;">+</button>
+                            </div>
+                        </div>
+                        <div style="font-size: 13px; font-weight: 700;">${item.price} TK</div>
+                        <button class="delete-item-btn" data-index="${index}" style="background: none; border: none; color: #2563eb; cursor: pointer; font-size: 16px;">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
                     </div>
-                    <button class="delete-item-btn" data-index="${index}">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
     }
 
@@ -163,59 +168,59 @@ function closeNavlistPopup() {
             return;
         }
 
-        // Add to Cart বাটন হ্যান্ডলার (Flash Sale, Fashion, Search-Filter ইত্যাদি সব পেজের জন্য)
-        const addBtn = e.target.closest('.add-to-cart .btn, .add-to-cart');
+        // Add to Cart বাটন হ্যান্ডলার (Product Details Page সহ সকল পেজের জন্য)
+        const addBtn = e.target.closest('.add-to-cart .btn, .add-to-cart, #add-to-cart-btn, .add-cart-btn');
         if (addBtn) {
             e.preventDefault();
             e.stopPropagation();
 
-            // সব ধরনের প্রোডাক্ট কন্টেইনার সিলেক্টর
+            // Product Container শনাক্তকরণ
             const productContainer = addBtn.closest(
-                '.flash-sale-product-container, .fashion-product-container, .search-filter-product-container, .product-card'
+                '.product-container, .flash-sale-product-container, .fashion-product-container, .search-filter-product-container, .product-card, main, body'
             );
             if (!productContainer) return;
 
             // ১. টাইটেল সংগ্রহ
             const titleEl = productContainer.querySelector(
-                '.flash-sale-product-details p, .fashion-product-details p, .search-filter-product-details p, .product-title, h3, h4'
+                '.product-title, .flash-sale-product-details p, .fashion-product-details p, .search-filter-product-details p, h1, h2, h3'
             );
             const titleFull = titleEl ? titleEl.innerText : 'Product';
             const title = titleFull.length > 35 ? titleFull.substring(0, 35) + '...' : titleFull.split(' - ')[0].trim();
 
-            // ২. প্রাইস সংগ্রহ
+            // ২. প্রাইস সংগ্রহ (Single unit price)
             const priceEl = productContainer.querySelector(
-                '.flash-sale-product-ratings h4, .fashion-product-ratings h4, .search-filter-product-ratings h4, .price'
+                '.price-tag, .flash-sale-product-ratings h4, .fashion-product-ratings h4, .search-filter-product-ratings h4, .price, #product-price'
             );
             const priceText = priceEl ? priceEl.innerText : '0';
             const price = parseInt(priceText.replace(/[^0-9]/g, ''), 10) || 0;
 
             // ৩. ইমেজ সংগ্রহ
             const imgEl = productContainer.querySelector(
-                '.flash-sale-product-offer img, .fashion-product-offer img, .search-filter-product-offer img, img'
+                '#main-product-image, .flash-sale-product-offer img, .fashion-product-offer img, .search-filter-product-offer img, img'
             );
             const thumbnail = imgEl ? imgEl.src : '';
 
-            // একই প্রোডাক্ট কি না যাচাই
+            // ৪. কোয়ান্টিটি সংগ্রহ (Product Details Page এর input #qty-count থেকে)
+            const qtyInput = productContainer.querySelector('#qty-count, .qty-input, input[type="number"]');
+            const qtyToAdd = qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1;
+
+            // কার্টে প্রোডাক্ট যোগ/আপডেট
             const existingItem = cart.find(item => item.title === title);
             if (existingItem) {
-                existingItem.quantity += 1;
+                existingItem.quantity += qtyToAdd;
             } else {
-                cart.push({ title, price, thumbnail, quantity: 1 });
+                cart.push({ title, price, thumbnail, quantity: qtyToAdd });
             }
 
+            // UI আপডেট এবং স্লাইডার ওপেন
             updateCartUI();
-            toggleCart(true);
+            // toggleCart(true);
         }
     });
 
     document.addEventListener('DOMContentLoaded', updateCartUI);
     updateCartUI();
 })();
-
-
-
-
-
 
 
 

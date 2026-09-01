@@ -218,7 +218,7 @@ function addToCart(buyNow = false) {
     }
 
     saveCart(cart);
-    openCartSlider();
+    // openCartSlider();
 
     if (buyNow) {
         const checkoutBtn = document.getElementById('checkout-btn-id');
