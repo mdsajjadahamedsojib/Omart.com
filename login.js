@@ -51,7 +51,8 @@ function closeNavlistPopup() {
 
 
 
-//---------- OMART UNIVERSAL CART SYSTEM ----------//
+
+//---------- OMART UNIVERSAL CART SYSTEM WITH FLY ANIMATION ----------//
 
 (function () {
     let cart = JSON.parse(localStorage.getItem('omart_cart')) || [];
@@ -68,7 +69,48 @@ function closeNavlistPopup() {
         }
     }
 
-    // ২. কার্ট UI ও হেডার ব্যাজ আপডেট
+    // ২. Fly to Cart Animation Function
+    function animateFlyToCart(imgElement) {
+        const cartIcon = document.querySelector('.cart-section');
+        if (!cartIcon || !imgElement) return;
+
+        // প্রোডাক্ট ছবি এবং হেডার কার্ট আইকনের পজিশন নির্ণয়
+        const imgRect = imgElement.getBoundingClientRect();
+        const cartRect = cartIcon.getBoundingClientRect();
+
+        // ডুপ্লিকেট ফ্লাইং ইমেজ তৈরি
+        const flyingImg = document.createElement('img');
+        flyingImg.src = imgElement.src;
+        flyingImg.className = 'fly-to-cart-img';
+
+        // প্রাথমিক পজিশন সেট (প্রোডাক্ট ছবির গায়ে)
+        flyingImg.style.top = `${imgRect.top}px`;
+        flyingImg.style.left = `${imgRect.left}px`;
+        flyingImg.style.width = `${imgRect.width}px`;
+        flyingImg.style.height = `${imgRect.height}px`;
+
+        document.body.appendChild(flyingImg);
+
+        // অ্যানিমেশন ট্রিগার (পরের ফ্রেমে পজিশন পরিবর্তন)
+        requestAnimationFrame(() => {
+            flyingImg.style.top = `${cartRect.top + (cartRect.height / 2) - 15}px`;
+            flyingImg.style.left = `${cartRect.left + (cartRect.width / 2) - 15}px`;
+            flyingImg.style.width = '30px';
+            flyingImg.style.height = '30px';
+            flyingImg.style.opacity = '0.3';
+        });
+
+        // অ্যানিমেশন শেষে ফ্লাইং এলিমেন্ট ডিলিট এবং কার্ট আইকনে Bounce ইফেক্ট
+        setTimeout(() => {
+            flyingImg.remove();
+            cartIcon.classList.add('cart-icon-bounce');
+            setTimeout(() => {
+                cartIcon.classList.remove('cart-icon-bounce');
+            }, 400);
+        }, 800);
+    }
+
+    // ৩. কার্ট UI ও হেডার ব্যাজ আপডেট
     function updateCartUI() {
         localStorage.setItem('omart_cart', JSON.stringify(cart));
 
@@ -127,9 +169,9 @@ function closeNavlistPopup() {
         }
     }
 
-    // ৩. গ্লোবাল ইভেন্ট লিসেনার
+    // ৪. গ্লোবাল ইভেন্ট লিসেনার
     document.addEventListener('click', function (e) {
-        // কার্ট ওপেন
+        // কার্ট ওপেন (হেডার কার্ট আইকনে ক্লিক)
         if (e.target.closest('.cart-section')) {
             e.preventDefault();
             toggleCart(true);
@@ -168,43 +210,42 @@ function closeNavlistPopup() {
             return;
         }
 
-        // Add to Cart বাটন হ্যান্ডলার (Product Details Page সহ সকল পেজের জন্য)
+        // Add to Cart বাটন হ্যান্ডলার
         const addBtn = e.target.closest('.add-to-cart .btn, .add-to-cart, #add-to-cart-btn, .add-cart-btn');
         if (addBtn) {
             e.preventDefault();
             e.stopPropagation();
 
-            // Product Container শনাক্তকরণ
             const productContainer = addBtn.closest(
                 '.product-container, .flash-sale-product-container, .fashion-product-container, .search-filter-product-container, .product-card, main, body'
             );
             if (!productContainer) return;
 
-            // ১. টাইটেল সংগ্রহ
             const titleEl = productContainer.querySelector(
                 '.product-title, .flash-sale-product-details p, .fashion-product-details p, .search-filter-product-details p, h1, h2, h3'
             );
             const titleFull = titleEl ? titleEl.innerText : 'Product';
             const title = titleFull.length > 35 ? titleFull.substring(0, 35) + '...' : titleFull.split(' - ')[0].trim();
 
-            // ২. প্রাইস সংগ্রহ (Single unit price)
             const priceEl = productContainer.querySelector(
                 '.price-tag, .flash-sale-product-ratings h4, .fashion-product-ratings h4, .search-filter-product-ratings h4, .price, #product-price'
             );
             const priceText = priceEl ? priceEl.innerText : '0';
             const price = parseInt(priceText.replace(/[^0-9]/g, ''), 10) || 0;
 
-            // ৩. ইমেজ সংগ্রহ
             const imgEl = productContainer.querySelector(
                 '#main-product-image, .flash-sale-product-offer img, .fashion-product-offer img, .search-filter-product-offer img, img'
             );
             const thumbnail = imgEl ? imgEl.src : '';
 
-            // ৪. কোয়ান্টিটি সংগ্রহ (Product Details Page এর input #qty-count থেকে)
             const qtyInput = productContainer.querySelector('#qty-count, .qty-input, input[type="number"]');
             const qtyToAdd = qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1;
 
-            // কার্টে প্রোডাক্ট যোগ/আপডেট
+            // ফ্লাই অ্যানিমেশন ট্রিগার
+            if (imgEl) {
+                animateFlyToCart(imgEl);
+            }
+
             const existingItem = cart.find(item => item.title === title);
             if (existingItem) {
                 existingItem.quantity += qtyToAdd;
@@ -212,15 +253,22 @@ function closeNavlistPopup() {
                 cart.push({ title, price, thumbnail, quantity: qtyToAdd });
             }
 
-            // UI আপডেট এবং স্লাইডার ওপেন
-            updateCartUI();
-            // toggleCart(true);
+            // অ্যানিমেশন চলাকালীন কিছুটা সময় পর ব্যাকগ্রাউন্ডে কার্ট ও কাউন্ট আপডেট হবে
+            setTimeout(() => {
+                updateCartUI();
+            }, 750);
         }
     });
 
     document.addEventListener('DOMContentLoaded', updateCartUI);
     updateCartUI();
 })();
+
+
+
+
+
+
 
 
 
