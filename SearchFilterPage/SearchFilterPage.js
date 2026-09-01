@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------
     // 2. FETCH & RENDER FOR SEARCH FILTER SECTION
     // -------------------------------------------------------------
-    // মূল সেকশন কন্টেইনার সিলেক্ট করা
     const productSection = document.querySelector('.search-filter-product-section') || document.getElementById('search-filter-section');
     const searchTitle = document.getElementById('search-title');
 
@@ -87,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // আপনার দেওয়া HTML Structure পুরোপুরি অনুকরণ করে ডাইনামিক কার্ড রেন্ডারিং
+    // ডাইনামিক কার্ড রেন্ডারিং (Product Details Link সহ)
     function renderProducts(products) {
         productSection.innerHTML = '';
 
@@ -97,21 +96,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         products.forEach(product => {
-            // প্রতিটি প্রডাক্ট কার্ডের মূল ডিভ
             const card = document.createElement('div');
             card.classList.add('search-filter-product-container');
+            // প্রোডাক্ট আইডি সেট করা হলো
+            card.setAttribute('data-id', product.id);
 
             const starsHTML = generateRatingStars(product.rating);
+            // Product Details Page Relative URL
+            const detailsUrl = `../ProductDetailsPage/ProductDetails.html?id=${product.id}`;
 
-            // হুবহু আপনার চিহ্নিত HTML মার্কআপ অনুযায়ী ডাইনামিক ডেটা সেট
             card.innerHTML = `
                 <div class="search-filter-product-offer">
                     <span class="flex">${Math.round(product.discountPercentage)}% off</span>
-                    <img src="${product.thumbnail}" alt="${product.title}">
+                    <a href="${detailsUrl}">
+                        <img src="${product.thumbnail}" alt="${product.title}">
+                    </a>
                 </div>
 
                 <div class="search-filter-product-details">
-                    <p>${product.title}</p>
+                    <a href="${detailsUrl}" style="text-decoration:none; color:inherit;">
+                        <p>${product.title}</p>
+                    </a>
                 </div>
 
                 <div class="search-filter-product-ratings flex">
@@ -150,4 +155,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return stars;
     }
+
+    // -------------------------------------------------------------
+    // 3. PRODUCT CLICK EVENT DELEGATION (CARD CLICK FALLBACK)
+    // -------------------------------------------------------------
+    document.addEventListener('click', (e) => {
+        // Add to Cart বাটনে ক্লিক করলে ডিটেইলস পেজে রিডাইরেক্ট হবে না
+        if (e.target.closest('.add-to-cart, .btn')) return;
+
+        const productCard = e.target.closest('.search-filter-product-container');
+        if (productCard) {
+            const productId = productCard.getAttribute('data-id');
+            if (productId) {
+                window.location.href = `../ProductDetailsPage/ProductDetails.html?id=${productId}`;
+            }
+        }
+    });
+
 });
